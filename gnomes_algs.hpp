@@ -42,8 +42,8 @@ path greedy_gnomes_exhaustive(const grid& setting) {
     for(int bits=0;bits<2^len-1;bits++){
       //candidate = start
       for(int k=0;k<len-1;k++){
-        //bit=(bits>>k)&1
-        if(bits ==1)
+        int bit = (bits>>k) & 1;
+        if(bit ==1)
           candidate.add_step(STEP_DIRECTION_RIGHT);
         else
           candidate.add_step(STEP_DIRECTION_DOWN);
