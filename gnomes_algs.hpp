@@ -84,19 +84,18 @@ namespace gnomes {
 					A[0][0] = path(setting);
 				}
 				if (setting.get(i,j) == CELL_ROCK){
-					A[i][j] = path(setting);
+					A[i][j] = path();
 					aijNone=false;
 					continue;
 				}
 
 				//general cases
-				path from_above = path(setting);
-				path from_left = path(setting);
+				path from_above = path();
+				path from_left = path();
 				bool fromleftisnotnone=false, fromaboveisnotnone=false;
 
 				//above
-				//if ((i > 0) && (A[i-1][j])){
-				if ((i > 0)){
+				if ((i > 0) && (A[i-1][j])){
 					from_above = A[i-1][j];
 					if (from_above.is_step_valid(STEP_DIRECTION_DOWN)) {
 						from_above.add_step(STEP_DIRECTION_DOWN);
@@ -105,8 +104,7 @@ namespace gnomes {
 				}
 
 				//left
-				//if ((j > 0) && (A[i][j-1])) {
-				if(j>0)
+				if ((j > 0) && (A[i][j-1])) {
 					from_left = A[i][j-1];
 					if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)) {
 						from_left.add_step(STEP_DIRECTION_RIGHT);
@@ -122,7 +120,7 @@ namespace gnomes {
 				} else if (fromleftisnotnone && !fromaboveisnotnone) {
 					A[i][j] = from_left;
 				} else if((!fromaboveisnotnone && !fromleftisnotnone) && i != 0) {
-					A[i][j] = path(setting);
+					A[i][j] = path();
 					aijNone=false;
 				}
 			}
