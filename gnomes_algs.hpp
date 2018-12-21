@@ -43,12 +43,12 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   //std::bitset<63> bits;
   for(int len=1;len<max_steps;len++){
     //for(bits=0;bits.to_ulong()<pow(2,len)-1;bits=bits.to_ulong() + 1){
-    for(int bits=0;bits<pow(2,len)-1;bits++)
+    for(int bits=0;bits<pow(2,len)-1;bits++){
       path candidate(setting);
       for(int k=0;k<len;k++)
         auto bit = (bits>>k)&1;
         //if(bits[k] == 0){
-        if(bit==1)
+        if(bit==1){
           if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
             candidate.add_step(STEP_DIRECTION_RIGHT);
         }else
