@@ -36,19 +36,19 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   assert(setting.columns() > 0);
   
   // Compute maximum path length, and check that it is legal.
-  const size_t max_steps = setting.rows() + setting.columns() - 2;
+  const size_t max_steps = setting.rows() + setting.columns() - 1;
   assert(max_steps < 64);
   
   path best(setting);
   std::bitset<63> bits;
-  for(int len=0;len<max_steps;len++){
+  for(int len=1;len<max_steps;len++){
     for(bits=0;bits.to_ulong()<pow(2,len)-1;bits=bits.to_ulong() + 1){
       path candidate(setting);
       for(int k=0;k<len;k++)
         if(bits[k] == 0){
           if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
             candidate.add_step(STEP_DIRECTION_RIGHT);
-        } else if (bits[k]==1)
+        }
           if(candidate.is_step_valid(STEP_DIRECTION_DOWN))
             candidate.add_step(STEP_DIRECTION_DOWN);
       if (candidate.total_gold()>best.total_gold())
