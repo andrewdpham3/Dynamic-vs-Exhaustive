@@ -37,13 +37,13 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   assert(max_steps < 64);
 
   auto maxlen = setting.rows() + setting.columns() - 2;
-  path best(setting); path candidate(setting);
+  path best(setting);
   for(int len=0;len<maxlen;len++)
     for(int bits=0;bits<2^len-1;bits++){
-      candidate.add_step(STEP_DIRECTION_START);
+      path candidate;//do i need to set it to start?
       for(int k=0;k<len-1;k++){
         int bit = (bits>>k) & 1;
-        if(bit ==1){
+        if(bit == 1){
           candidate.add_step(STEP_DIRECTION_RIGHT);
           if(candidate.total_gold()>best.total_gold())//is valid step is already asserted
             best=candidate;
