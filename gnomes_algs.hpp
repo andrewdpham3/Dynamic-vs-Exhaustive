@@ -40,7 +40,8 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   path best(setting);
   for(int len=0;len<maxlen;len++)
     for(int bits=0;bits<2^len-1;bits++){
-      path candidate(setting);//do i need to set it to start?
+      path candidate(setting);
+      candidate.add_step(STEP_DIRECTION_START);//do i need to set it to start?
       for(int k=0;k<len-1;k++){
         int bit = (bits>>k) & 1;
         if(bit == 1){
