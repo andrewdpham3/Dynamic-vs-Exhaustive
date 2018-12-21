@@ -83,9 +83,9 @@ namespace gnomes {
 					final.push_back(paths[i]);
 				}
 				else {
-					if (current_right.is_step_valid(STEP_DIRECTION_RIGHT))
+					if (paths[i].is_step_valid(STEP_DIRECTION_RIGHT))
 						solutions.push_back(paths[i].add_step(STEP_DIRECTION_RIGHT));
-					if (current_down.is_step_valid(STEP_DIRECTION_DOWN))
+					if (paths[i].is_step_valid(STEP_DIRECTION_DOWN))
 						solutions.push_back(paths[i].add_step(STEP_DIRECTION_DOWN));
 				}
 			}
