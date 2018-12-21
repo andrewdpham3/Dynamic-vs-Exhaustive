@@ -1,3 +1,5 @@
+CXX = g++ -std=c++11 -Wall
+
 all: run_test gnomes_timing
 
 run_test: gnomes_test
