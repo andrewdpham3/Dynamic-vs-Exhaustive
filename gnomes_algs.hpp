@@ -71,16 +71,15 @@ namespace gnomes {
 		size_t c = setting.columns();
 
 		std::vector<std::vector<path>> A(r);
-		// Initalize the path matrix
 		for(size_t i = 0; i < r; i++)
 			for(size_t j = 0; j < c; j++)
 				A[i].push_back(path());
 
 		bool aijNone=true;
+
 		for(size_t i = 0; i < r; i++) {
 			for(size_t j = 0; j < c; j++) {
-
-				// Skip the first cell, which is our starting path
+				//base case
 				if ((i == 0) && (j == 0)){
 					A[0][0] = path(setting);
 				}
@@ -91,7 +90,7 @@ namespace gnomes {
 					continue;
 				}
 
-				//Paths
+				//general cases
 				path from_above = path();
 				path from_left = path();
 				bool fromleftisnotnone=false, fromaboveisnotnone=false;
@@ -118,13 +117,11 @@ namespace gnomes {
 
 				//assignment
 				if(fromaboveisnotnone && fromleftisnotnone) {
-					A[i][j] = from_above.total_gold() > from_left.total_gold() ? fromaboveisnotnone : fromleftisnotnone;
+					A[i][j] = from_above.total_gold() > from_left.total_gold() ? from_above : from_left;
 				} else if (fromaboveisnotnone && !fromleftisnotnone) {
 					A[i][j] = from_above;
-
 				} else if (fromleftisnotnone && !fromaboveisnotnone) {
 					A[i][j] = from_left;
-
 				} else if((!fromaboveisnotnone && !fromleftisnotnone) && i != 0) {
 					A[i][j] = path();
 					//A[i][j].exists = false;
@@ -134,13 +131,10 @@ namespace gnomes {
 		}
 
 		path best(setting);
-		for (size_t i = 0; i <= r-1; i++) {
-			for (size_t j = 0; j <= c-1; j++) {
-				if(A[i][j].total_gold() > best.total_gold()) {
+		for (size_t i = 0; i <= r-1; i++)
+			for (size_t j = 0; j <= c-1; j++)
+				if(A[i][j].total_gold() > best.total_gold())
 					best = A[i][j];
-				}
-			}
-		}
 		return best;
 	}
 }
