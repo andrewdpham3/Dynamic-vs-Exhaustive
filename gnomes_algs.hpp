@@ -45,7 +45,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
     //for(bits=0;bits.to_ulong()<pow(2,len)-1;bits=bits.to_ulong() + 1){
     for(int bits=0;bits<pow(2,len)-1;bits++){
       path candidate(setting);
-      for(int k=0;k<len;k++)
+      for(int k=0;k<len;k++){
         auto bit = (bits>>k)&1;
         //if(bits[k] == 0){
         if(bit==1){
@@ -54,6 +54,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
         }else
           if(candidate.is_step_valid(STEP_DIRECTION_DOWN))
             candidate.add_step(STEP_DIRECTION_DOWN);
+      }
       if (candidate.total_gold()>best.total_gold())
         best = candidate;
     }
