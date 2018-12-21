@@ -35,7 +35,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   // Compute maximum path length, and check that it is legal.
   const size_t max_steps = setting.rows() + setting.columns() - 2;
   assert(max_steps < 64);
-
+  
   path best(setting);
   for(int len=0;len<max_steps;len++)
     for(int bits=0;bits<pow(2,len)-1;bits++){
@@ -45,7 +45,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
         if(bit == 1)
           if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
             candidate.add_step(STEP_DIRECTION_RIGHT);
-        else
+        else if(bit ==0)
           if(candidate.is_step_valid(STEP_DIRECTION_DOWN))
             candidate.add_step(STEP_DIRECTION_DOWN);
       }
