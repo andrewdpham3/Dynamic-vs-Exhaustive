@@ -68,9 +68,9 @@ path greedy_gnomes_dyn_prog(const grid& setting) {
   assert(setting.rows() > 0);
   assert(setting.columns() > 0);
 
-  step_direction A[setting.rows()][setting.columns()];
+  step_direction a[setting.rows()][setting.columns()];
   //base case
-  step_direction a[0][0]=STEP_DIRECTION_START;
+  a[0][0]={STEP_DIRECTION_START};
   /*general cases
   for(int i=0;i<setting.rows();i++)
     for(int j=0;setting.columns()-1;j++){
