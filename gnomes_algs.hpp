@@ -94,14 +94,14 @@ namespace gnomes {
 				//Paths
 				path from_above = path();
 				path from_left = path();
-
+				bool fromleftisnotnone=false, fromaboveisnone=false;
 				//check above
 				if ((i > 0) && (A[i-1][j])){
 					from_above = A[i-1][j];
 					if (from_above.is_step_valid(STEP_DIRECTION_DOWN)) {
 						from_above.add_step(STEP_DIRECTION_DOWN);
 						//from_above.exists = true;
-						bool fromaboveisnotnone=true;
+						fromaboveisnotnone=true;
 					}
 				}
 
@@ -111,7 +111,7 @@ namespace gnomes {
 					if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)) {
 						from_left.add_step(STEP_DIRECTION_RIGHT);
 						//from_left.exists = true;
-						bool fromleftisnotnone=true;
+						fromleftisnotnone=true;
 					}
 				}
 
