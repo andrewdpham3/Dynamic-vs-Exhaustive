@@ -67,35 +67,87 @@ namespace gnomes {
 		assert(setting.rows() > 0);
 		assert(setting.columns() > 0);
 
-		path best(setting);
-		std::vector<path> paths;
-		std::vector<path> solutions;
-		std::vector<path> final;
-		paths.push_back(best);
+				size_t r = setting.rows();
+		size_t c = setting.columns();
 
-		for (int i = 0; a < setting.rows() + setting.columns() - 1; i+) {
-			for (int j = 0; i < setting.columns()-1 ; j++) {
-				int row = paths[j].final_row();
-				if (row == setting.rows() - 1 && paths[i].is_step_valid(STEP_DIRECTION_RIGHT) == false) {
-					final.push_back(paths[i]);
-				}
-				else if (row == setting.rows() - 1) {
-					final.push_back(paths[i]);
-				}
-				else {
-					if (paths[i].is_step_valid(STEP_DIRECTION_RIGHT))
-						solutions.push_back(paths[i].add_step(STEP_DIRECTION_RIGHT));
-					if (paths[i].is_step_valid(STEP_DIRECTION_DOWN))
-						solutions.push_back(paths[i].add_step(STEP_DIRECTION_DOWN));
-				}
+		// grid must be non-empty.
+		assert(r > 0);
+		assert(c > 0);
+
+		std::vector<std::vector<path>> A(r);
+
+		// Initalize the path matrix
+		for(size_t i = 0; i < setting.rows(); i++) {
+			for(size_t j = 0; j < setting.columns(); j++) {
+				A[i].push_back(path());
 			}
-			paths = solutions;
-			solutions.clear();
 		}
 
-		for (int i = 0; i < final.size(); i++) {
-			if (final[i].total_gold() > best.total_gold())
-				best = final[i];
+
+		for(size_t i = 0; i < setting.rows(); i++) {
+			for(size_t j = 0; j < setting.columns(); j++) {
+
+				// Skip the first cell, which is our starting path
+				if ((i == 0) && (j == 0))
+				{
+					A[0][0] = path(setting);
+				}
+
+				if (setting.get(i,j) == CELL_ROCK)
+				{
+					A[i][j] = path();
+					A[i][j].exists = false;
+					continue;
+				}
+
+				//Paths
+				path from_above = path();
+
+				path from_left = path();
+
+				//Check above path in path matrix
+				if ((i > 0) && (A[i-1][j]))
+				{
+					from_above = A[i-1][j];
+					if (from_above.is_step_valid(STEP_DIRECTION_DOWN)) {
+						from_above.add_step(STEP_DIRECTION_DOWN);
+						from_above.exists = true;
+					}
+				}
+
+				// Check left path in path matrix
+				if ((j > 0) && (A[i][j-1])) {
+					from_left = A[i][j-1];
+					if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)) {
+						from_left.add_step(STEP_DIRECTION_RIGHT);
+						from_left.exists = true;
+					}
+				}
+
+				if(from_above && from_left) {
+					A[i][j] = from_above.total_gold() > from_left.total_gold() ? from_above : from_left;
+
+				} else if (from_above && !from_left) {
+					A[i][j] = from_above;
+
+				} else if (from_left && !from_above) {
+					A[i][j] = from_left;
+
+				} else if((!from_above && !from_left) && i != 0) {
+					A[i][j] = path();
+					A[i][j].exists = false;
+				}
+			}
+		}
+
+		path best(setting);
+
+		for (size_t i = 0; i <= r-1; i++) {
+			for (size_t j = 0; j <= c-1; j++) {
+				if(A[i][j].total_gold() > best.total_gold()) {
+					best = A[i][j];
+				}
+			}
 		}
 		return best;
 	}
