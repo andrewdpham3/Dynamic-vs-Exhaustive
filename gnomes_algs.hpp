@@ -36,7 +36,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   assert(setting.columns() > 0);
   
   // Compute maximum path length, and check that it is legal.
-  const size_t max_steps = setting.rows() + setting.columns() - 2;
+  const size_t max_steps = setting.rows() + setting.columns() - 1;
   assert(max_steps < 64);
   
   path best(setting);
