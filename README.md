@@ -3,6 +3,4 @@ Project 4: greedy gnomes
 
 Group members:
 
-Ada Lovelace adalovelace@csu.fullerton.edu
-
-Charles Babbage charlesbab@csu.fullerton.edu
+Andrew Pham andrewpham@csu.fullerton.edu
