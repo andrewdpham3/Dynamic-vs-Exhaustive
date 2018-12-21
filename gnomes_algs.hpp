@@ -14,8 +14,6 @@
 
 #include <cassert>
 #include <math.h>
-#include <vector>
-
 #include "gnomes_types.hpp"
 
 namespace gnomes {
