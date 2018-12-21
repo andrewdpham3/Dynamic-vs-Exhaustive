@@ -31,15 +31,29 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   // grid must be non-empty.
   assert(setting.rows() > 0);
   assert(setting.columns() > 0);
-
+  
   // Compute maximum path length, and check that it is legal.
   const size_t max_steps = setting.rows() + setting.columns() - 2;
   assert(max_steps < 64);
 
-  // TODO: implement the exhaustive search algorithm, then delete this
-  // comment.
-  path best(setting);
-  return path(setting);
+  auto maxlen = r + c - 2;
+  path best, candidate;
+  for(int len=0;len<maxsteps;len++)
+    for(int bits=0;bits<2^len-1;bits++){
+      //candidate = start
+      for(int k=0;k<len-1;k++){
+        //bit=(bits>>k)&1
+        if(bit ==1)
+          candidate.add(STEP_DIRECTION_RIGHT);
+        else
+          candidate.add(STEP_DIRECTION_DOWN);
+      }
+      if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
+        if(candidate.totalgold()>best.totalgold())
+          best=candidate;
+    }
+  
+  return best;
 }
 
 // Solve the greedy gnomes problem for the given grid, using a dynamic
