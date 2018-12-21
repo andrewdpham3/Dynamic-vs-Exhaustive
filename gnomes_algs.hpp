@@ -41,7 +41,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   for(int len=0;len<maxlen;len++)
     for(int bits=0;bits<2^len-1;bits++){
       path candidate(setting);
-      candidate.add_step(STEP_DIRECTION_START);//do i need to set it to start?
+      //candidate.add_step(STEP_DIRECTION_START);//do i need to set it to start?
       for(int k=0;k<len-1;k++){
         int bit = (bits>>k) & 1;
         if(bit == 1){
@@ -68,17 +68,21 @@ path greedy_gnomes_dyn_prog(const grid& setting) {
   // grid must be non-empty.
   assert(setting.rows() > 0);
   assert(setting.columns() > 0);
+  
+  auto r=setting.rows();
+  auto c=setting.columns()
 
   step_direction a[setting.rows()][setting.columns()];
   //base case
   a[0][0]={STEP_DIRECTION_START};
   /*general cases
-  for(int i=0;i<setting.rows();i++)
-    for(int j=0;setting.columns()-1;j++){
+  for(int i=0;i<r;i++)
+    for(int j=0;c-1;j++){
       //if(setting[i][j]=='X')
         //a[i][j]=
       //from_above = from left = none
-      if(i>0 && a[i-1][j])
+      //if(i>0 && a[i-1][j])
+      
     }*/
   
   path best(setting);
