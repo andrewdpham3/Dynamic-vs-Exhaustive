@@ -13,6 +13,7 @@
 #pragma once
 
 #include <cassert>
+#include <bitset>
 
 #include "gnomes_types.hpp"
 
