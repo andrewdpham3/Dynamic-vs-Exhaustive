@@ -38,18 +38,18 @@ path greedy_gnomes_exhaustive(const grid& setting) {
 
   auto maxlen = r + c - 2;
   path best, candidate;
-  for(int len=0;len<maxsteps;len++)
+  for(int len=0;len<maxlen;len++)
     for(int bits=0;bits<2^len-1;bits++){
       //candidate = start
       for(int k=0;k<len-1;k++){
         //bit=(bits>>k)&1
-        if(bit ==1)
-          candidate.add(STEP_DIRECTION_RIGHT);
+        if(bits ==1)
+          candidate.add_step(STEP_DIRECTION_RIGHT);
         else
-          candidate.add(STEP_DIRECTION_DOWN);
+          candidate.add_step(STEP_DIRECTION_DOWN);
       }
       if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
-        if(candidate.totalgold()>best.totalgold())
+        if(candidate.total_gold()>best.total_gold())
           best=candidate;
     }
   
