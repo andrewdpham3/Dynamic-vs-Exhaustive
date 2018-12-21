@@ -94,8 +94,9 @@ namespace gnomes {
 				//Paths
 				path from_above = path();
 				path from_left = path();
-				bool fromleftisnotnone=false, fromaboveisnone=false;
-				//check above
+				bool fromleftisnotnone=false, fromaboveisnotnone=false;
+
+				//above
 				if ((i > 0) && (A[i-1][j])){
 					from_above = A[i-1][j];
 					if (from_above.is_step_valid(STEP_DIRECTION_DOWN)) {
@@ -105,7 +106,7 @@ namespace gnomes {
 					}
 				}
 
-				// check left
+				//left
 				if ((j > 0) && (A[i][j-1])) {
 					from_left = A[i][j-1];
 					if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)) {
@@ -115,15 +116,16 @@ namespace gnomes {
 					}
 				}
 
-				if(fromaboveisnone && fromleftisnotnone) {
-					A[i][j] = from_above.total_gold() > from_left.total_gold() ? from_above : from_left;
-				} else if (fromaboveisnone && !fromleftisnotnone) {
+				//assignment
+				if(fromaboveisnotnone && fromleftisnotnone) {
+					A[i][j] = from_above.total_gold() > from_left.total_gold() ? fromaboveisnotnone : fromleftisnotnone;
+				} else if (fromaboveisnotnone && !fromleftisnotnone) {
 					A[i][j] = from_above;
 
-				} else if (fromleftisnotnone && !fromaboveisnone) {
+				} else if (fromleftisnotnone && !fromaboveisnotnone) {
 					A[i][j] = from_left;
 
-				} else if((!fromaboveisnone && !fromleftisnotnone) && i != 0) {
+				} else if((!fromaboveisnotnone && !fromleftisnotnone) && i != 0) {
 					A[i][j] = path();
 					//A[i][j].exists = false;
 					aijNone=false;
