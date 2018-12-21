@@ -41,7 +41,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   
   path best(setting);
   std::bitset<63> bits;
-  for(int len=0;len<max_steps;len++){
+  for(int len=1;len<max_steps;len++){
     bits=0;
     for(int c=0;c<pow(2,len)-1;c++){
       path candidate(setting);
@@ -56,7 +56,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
       if (candidate.total_gold()>best.total_gold())
         best = candidate;
       int bit_int = bits.to_ullong();
-			bits = bits.to_ulong() + 1;
+     	bits = bits.to_ulong() + 1;
     }
   }
   return best;
