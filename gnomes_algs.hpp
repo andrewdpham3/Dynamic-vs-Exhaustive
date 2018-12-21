@@ -42,7 +42,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
       path candidate(setting);
       for(int k=0;k<len;k++){
         int bit = (bits>>k) & 1;
-        if(bit == 0)
+        if(bit == 1)
           if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
             candidate.add_step(STEP_DIRECTION_RIGHT);
         else
@@ -50,7 +50,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
             candidate.add_step(STEP_DIRECTION_DOWN);
       }
       if (candidate.total_gold()>best.total_gold())
-				best = candidate;
+	best = candidate;
     }
   return best;
 }
