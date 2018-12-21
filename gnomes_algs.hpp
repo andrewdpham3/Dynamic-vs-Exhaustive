@@ -37,8 +37,8 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   assert(max_steps < 64);
 
   path best(setting);
-  for(int len=0;len<steps;len++)
-    for(int bits=0;bits<pow(2,a)-1;bits++){
+  for(int len=0;len<max_steps;len++)
+    for(int bits=0;bits<pow(2,len)-1;bits++){
       path candidate(setting);
       for(int k=0;k<len;k++){
         int bit = (bits>>k) & 1;
@@ -50,7 +50,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
             candidate.add_step(STEP_DIRECTION_DOWN);
       }
       if (candidate.total_gold()>best.total_gold())
-				best = temp;
+				best = candidate;
     }
   return best;
 }
@@ -66,7 +66,7 @@ path greedy_gnomes_dyn_prog(const grid& setting) {
   assert(setting.columns() > 0);
   
   auto r=setting.rows();
-  auto c=setting.columns()
+  auto c=setting.columns();
 
   step_direction a[setting.rows()][setting.columns()];
   //base case
