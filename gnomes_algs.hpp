@@ -37,7 +37,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   assert(max_steps < 64);
 
   auto maxlen = setting.rows() + setting.columns() - 2;
-  path best, candidate;
+  path best; path candidate;
   for(int len=0;len<maxlen;len++)
     for(int bits=0;bits<2^len-1;bits++){
       //candidate = start
