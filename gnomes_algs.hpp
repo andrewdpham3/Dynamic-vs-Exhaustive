@@ -46,14 +46,16 @@ path greedy_gnomes_exhaustive(const grid& setting) {
       path candidate(setting);
       for(int k=0;k<len;k++)
         //int bit = (bits>>k) & 1;
-        if(bits[k] == 0)
+        if(bits[k] == 0){
           if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
             candidate.add_step(STEP_DIRECTION_RIGHT);
-        else
+        } else
           if(candidate.is_step_valid(STEP_DIRECTION_DOWN))
             candidate.add_step(STEP_DIRECTION_DOWN);
       if (candidate.total_gold()>best.total_gold())
         best = candidate;
+      int bit_int = bits.to_ullong();
+			bits = bits.to_ulong() + 1;
     }
   }
   return best;
