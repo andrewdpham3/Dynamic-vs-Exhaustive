@@ -38,7 +38,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   
   path best(setting);
   for(int len=0;len<max_steps;len++){
-    for(int bits=0;bits<pow(2,len)-1;bits++){
+    for(int bits=0;bits<pow(2,len-1)-1;bits++){
       path candidate(setting);
       for(int k=0;k<len-1;k++){
         auto bit = (bits>>k)&1;
