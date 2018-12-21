@@ -96,7 +96,7 @@ namespace gnomes {
 					}
 				}
 			}
-			std::cout << a << std::endl;
+			//std::cout << a << std::endl;
 			paths = solutions;
 			solutions.clear();
 		}
