@@ -37,21 +37,22 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   assert(max_steps < 64);
   
   path best(setting);
-  for(int len=0;len<max_steps;len++)
-    for(int bits=0;bits<pow(2,len)-1;bits++){
+  std::bitset<63>;
+  for(int len=0;len<max_steps;len++){
+    for(bits=0;bits<pow(2,len)-1;bits.bots.to_ulong()+1){
       path candidate(setting);
-      for(int k=0;k<len;k++){
-        int bit = (bits>>k) & 1;
-        if(bit == 0)
+      for(int k=0;k<len;k++)
+        //int bit = (bits>>k) & 1;
+        if(bits[b] == 0)
           if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
             candidate.add_step(STEP_DIRECTION_RIGHT);
-        else if(bit == 1)
+        else
           if(candidate.is_step_valid(STEP_DIRECTION_DOWN))
             candidate.add_step(STEP_DIRECTION_DOWN);
-      }
       if (candidate.total_gold()>best.total_gold())
-	best = candidate;
+        best = candidate;
     }
+  }
   return best;
 }
 
