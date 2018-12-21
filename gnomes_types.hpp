@@ -232,12 +232,14 @@ namespace gnomes {
 			void initialize(const grid& setting) {
 				assert(steps_.empty());
 				setting_ = &setting;
+				exists = true;
 				steps_.emplace_back(STEP_DIRECTION_START);
 				final_row_ = final_column_ = 0;
 				total_gold_ = 0;
 			}
 
 		public:
+			bool exists;
 
 			// Create an empty path, containing only one STEP_DIRECTION_START step
 			// and no other steps.
@@ -257,6 +259,7 @@ namespace gnomes {
 
 			path(){
 				total_gold_ =0;
+				exists = false;
 			}
 
 			// Accessors.
@@ -344,6 +347,7 @@ namespace gnomes {
 			}
 
 			operator bool() const {
+				return exists;
 			}
 
 	};
