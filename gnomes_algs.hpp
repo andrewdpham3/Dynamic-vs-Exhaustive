@@ -37,7 +37,7 @@ path greedy_gnomes_exhaustive(const grid& setting) {
   assert(max_steps < 64);
   
   path best(setting);
-  std::bitset<63>;
+  std::bitset<63> bits;
   for(int len=0;len<max_steps;len++){
     for(bits=0;bits<pow(2,len)-1;bits.bots.to_ulong()+1){
       path candidate(setting);
