@@ -14,6 +14,7 @@
 
 #include <cassert>
 #include <math.h>
+#include <vector>
 #include "gnomes_types.hpp"
 
 namespace gnomes {
@@ -66,24 +67,45 @@ path greedy_gnomes_dyn_prog(const grid& setting) {
   assert(setting.rows() > 0);
   assert(setting.columns() > 0);
   
-  auto r=setting.rows();
-  auto c=setting.columns();
+  ath best(setting);
+	std::vector<path> paths;
+	std::vector<path> solutions;
+	std::vector<path> final;
+	paths.push_back(best);
 
-  step_direction a[setting.rows()][setting.columns()];
-  //base case
-  a[0][0]={STEP_DIRECTION_START};
-  /*general cases
-  for(int i=0;i<r;i++)
-    for(int j=0;c-1;j++){
-      //if(setting[i][j]=='X')
-        //a[i][j]=
-      //from_above = from left = none
-      //if(i>0 && a[i-1][j])
-      
-    }*/
-  
-  path best(setting);
-  return path(setting);
+	for (int a = 0; a < setting.rows() + setting.columns() - 1; a++) {
+		for (int i = 0; i < paths.size(); i++) {
+			int row = paths[i].final_row();
+			if (row == setting.rows() - 1
+				&& paths[i].is_step_valid(STEP_DIRECTION_RIGHT) == false) {
+				final.push_back(paths[i]);
+			}
+			else if (row == setting.rows() - 1) {
+				final.push_back(paths[i]);
+			}
+			else {
+				path current_right = paths[i];
+				path current_down = paths[i];
+				if (current_right.is_step_valid(STEP_DIRECTION_RIGHT)) {
+					current_right.add_step(STEP_DIRECTION_RIGHT);
+					solutions.push_back(current_right);
+				}
+				if (current_down.is_step_valid(STEP_DIRECTION_DOWN)) {
+					current_down.add_step(STEP_DIRECTION_DOWN);
+					solutions.push_back(current_down);
+				}
+			}
+		}
+		std::cout << a << std::endl;
+		paths = solutions;
+		solutions.clear();
+	}
+
+	for (int i = 0; i < final.size(); i++) {
+		if (final[i].total_gold() > best.total_gold())
+			best = final[i];
+	}
+	return best;
 }
 
 }
