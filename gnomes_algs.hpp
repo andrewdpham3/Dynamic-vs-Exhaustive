@@ -73,30 +73,22 @@ namespace gnomes {
 		std::vector<path> final;
 		paths.push_back(best);
 
-		for (int a = 0; a < setting.rows() + setting.columns() - 1; a++) {
-			for (int i = 0; i < paths.size(); i++) {
-				int row = paths[i].final_row();
-				if (row == setting.rows() - 1
-					&& paths[i].is_step_valid(STEP_DIRECTION_RIGHT) == false) {
+		for (int i = 0; a < setting.rows() + setting.columns() - 1; i+) {
+			for (int j = 0; i < setting.columns()-1 ; j++) {
+				int row = paths[j].final_row();
+				if (row == setting.rows() - 1 && paths[i].is_step_valid(STEP_DIRECTION_RIGHT) == false) {
 					final.push_back(paths[i]);
 				}
 				else if (row == setting.rows() - 1) {
 					final.push_back(paths[i]);
 				}
 				else {
-					path current_right = paths[i];
-					path current_down = paths[i];
-					if (current_right.is_step_valid(STEP_DIRECTION_RIGHT)) {
-						current_right.add_step(STEP_DIRECTION_RIGHT);
-						solutions.push_back(current_right);
-					}
-					if (current_down.is_step_valid(STEP_DIRECTION_DOWN)) {
-						current_down.add_step(STEP_DIRECTION_DOWN);
-						solutions.push_back(current_down);
-					}
+					if (current_right.is_step_valid(STEP_DIRECTION_RIGHT))
+						solutions.push_back(paths[i].add_step(STEP_DIRECTION_RIGHT));
+					if (current_down.is_step_valid(STEP_DIRECTION_DOWN))
+						solutions.push_back(paths[i].add_step(STEP_DIRECTION_DOWN));
 				}
 			}
-			//std::cout << a << std::endl;
 			paths = solutions;
 			solutions.clear();
 		}
