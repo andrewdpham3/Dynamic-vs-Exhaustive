@@ -73,7 +73,7 @@ namespace gnomes {
 		std::vector<std::vector<path>> A(r);
 		for(size_t i = 0; i < r; i++)
 			for(size_t j = 0; j < c; j++)
-				A[i].push_back(path());
+				A[i].push_back(path(setting));
 
 		bool aijNone=true;
 
