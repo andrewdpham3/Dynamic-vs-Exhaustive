@@ -76,6 +76,7 @@ namespace gnomes {
 			for(size_t j = 0; j < c; j++)
 				A[i].push_back(path());
 
+		bool aijNone=true;
 		for(size_t i = 0; i < r; i++) {
 			for(size_t j = 0; j < c; j++) {
 
@@ -85,12 +86,14 @@ namespace gnomes {
 				}
 				if (setting.get(i,j) == CELL_ROCK){
 					A[i][j] = path();
-					A[i][j].exists = false;
+					//A[i][j].exists = false;
+					aijNone=false;
 					continue;
 				}
 
 				//Paths
-				path from_above = from_left = path();
+				path from_above = path();
+				path from_left = path();
 
 				//check above
 				if ((i > 0) && (A[i-1][j])){
@@ -112,17 +115,18 @@ namespace gnomes {
 					}
 				}
 
-				if(from_above && from_left) {
+				if(fromaboveisnone && fromleftisnotnone) {
 					A[i][j] = from_above.total_gold() > from_left.total_gold() ? from_above : from_left;
-				} else if (from_above && !from_left) {
+				} else if (fromaboveisnone && !fromleftisnotnone) {
 					A[i][j] = from_above;
 
-				} else if (from_left && !from_above) {
+				} else if (fromleftisnotnone && !fromaboveisnone) {
 					A[i][j] = from_left;
 
-				} else if((!from_above && !from_left) && i != 0) {
+				} else if((!fromaboveisnone && !fromleftisnotnone) && i != 0) {
 					A[i][j] = path();
-					A[i][j].exists = false;
+					//A[i][j].exists = false;
+					aijNone=false;
 				}
 			}
 		}
