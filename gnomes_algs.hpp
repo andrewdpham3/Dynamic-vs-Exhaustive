@@ -63,70 +63,57 @@ namespace gnomes {
 // The grid must be non-empty.
 	path greedy_gnomes_dyn_prog(const grid& setting) {
 
-  // grid must be non-empty.
+  		// grid must be non-empty.
 		assert(setting.rows() > 0);
 		assert(setting.columns() > 0);
 
-				size_t r = setting.rows();
+		size_t r = setting.rows();
 		size_t c = setting.columns();
 
-		// grid must be non-empty.
-		assert(r > 0);
-		assert(c > 0);
-
 		std::vector<std::vector<path>> A(r);
-
 		// Initalize the path matrix
-		for(size_t i = 0; i < setting.rows(); i++) {
-			for(size_t j = 0; j < setting.columns(); j++) {
+		for(size_t i = 0; i < r; i++)
+			for(size_t j = 0; j < c; j++)
 				A[i].push_back(path());
-			}
-		}
 
-
-		for(size_t i = 0; i < setting.rows(); i++) {
-			for(size_t j = 0; j < setting.columns(); j++) {
+		for(size_t i = 0; i < r; i++) {
+			for(size_t j = 0; j < c; j++) {
 
 				// Skip the first cell, which is our starting path
-				if ((i == 0) && (j == 0))
-				{
+				if ((i == 0) && (j == 0)){
 					A[0][0] = path(setting);
 				}
-
-				if (setting.get(i,j) == CELL_ROCK)
-				{
+				if (setting.get(i,j) == CELL_ROCK){
 					A[i][j] = path();
 					A[i][j].exists = false;
 					continue;
 				}
 
 				//Paths
-				path from_above = path();
+				path from_above = from_left = path();
 
-				path from_left = path();
-
-				//Check above path in path matrix
-				if ((i > 0) && (A[i-1][j]))
-				{
+				//check above
+				if ((i > 0) && (A[i-1][j])){
 					from_above = A[i-1][j];
 					if (from_above.is_step_valid(STEP_DIRECTION_DOWN)) {
 						from_above.add_step(STEP_DIRECTION_DOWN);
-						from_above.exists = true;
+						//from_above.exists = true;
+						bool fromaboveisnotnone=true;
 					}
 				}
 
-				// Check left path in path matrix
+				// check left
 				if ((j > 0) && (A[i][j-1])) {
 					from_left = A[i][j-1];
 					if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)) {
 						from_left.add_step(STEP_DIRECTION_RIGHT);
-						from_left.exists = true;
+						//from_left.exists = true;
+						bool fromleftisnotnone=true;
 					}
 				}
 
 				if(from_above && from_left) {
 					A[i][j] = from_above.total_gold() > from_left.total_gold() ? from_above : from_left;
-
 				} else if (from_above && !from_left) {
 					A[i][j] = from_above;
 
@@ -141,7 +128,6 @@ namespace gnomes {
 		}
 
 		path best(setting);
-
 		for (size_t i = 0; i <= r-1; i++) {
 			for (size_t j = 0; j <= c-1; j++) {
 				if(A[i][j].total_gold() > best.total_gold()) {
