@@ -45,15 +45,13 @@ path greedy_gnomes_exhaustive(const grid& setting) {
         int bit = (bits>>k) & 1;
         if(bit ==1){
           candidate.add_step(STEP_DIRECTION_RIGHT);
-          if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
-        if(candidate.total_gold()>best.total_gold())
-          best=candidate;
+          if(candidate.is_step_valid(STEP_DIRECTION_RIGHT) && candidate.total_gold()>best.total_gold())
+            best=candidate;
         }
         else{
           candidate.add_step(STEP_DIRECTION_DOWN);
-          if(candidate.is_step_valid(STEP_DIRECTION_DOWN))
-        if(candidate.total_gold()>best.total_gold())
-          best=candidate;
+          if(candidate.is_step_valid(STEP_DIRECTION_DOWN) && candidate.total_gold()>best.total_gold())
+            best=candidate;
         }
       }
     }
