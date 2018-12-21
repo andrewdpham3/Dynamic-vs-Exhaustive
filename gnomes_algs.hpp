@@ -14,6 +14,8 @@
 
 #include <cassert>
 #include <bitset>
+#include <math.h>
+#include <vector>
 
 #include "gnomes_types.hpp"
 
