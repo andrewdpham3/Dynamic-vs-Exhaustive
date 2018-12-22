@@ -96,7 +96,7 @@ namespace gnomes {
 
 				//above
 				//if ((i > 0) && (A[i-1][j])){
-				if(i>0 && aij)
+				if(i>0)
 					from_above = A[i-1][j];
 					if (from_above.is_step_valid(STEP_DIRECTION_DOWN)) {
 						from_above.add_step(STEP_DIRECTION_DOWN);
@@ -106,7 +106,7 @@ namespace gnomes {
 
 				//left
 				//if ((j > 0) && (A[i][j-1])) {
-				if(i>0 && aij)
+				if(j>0)
 					from_left = A[i][j-1];
 					if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)) {
 						from_left.add_step(STEP_DIRECTION_RIGHT);
