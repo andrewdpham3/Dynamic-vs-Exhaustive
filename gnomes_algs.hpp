@@ -62,81 +62,99 @@ namespace gnomes {
 //
 // The grid must be non-empty.
 	path greedy_gnomes_dyn_prog(const grid& setting) {
+  const size_t r = setting.rows();
+  const size_t c = setting.columns();
 
-  		// grid must be non-empty.
-		assert(setting.rows() > 0);
-		assert(setting.columns() > 0);
+  // grid must be non-empty.
+  assert(r > 0);
+  assert(c > 0);
 
-		size_t r = setting.rows();
-		size_t c = setting.columns();
+  // Creating a new rxc matrix
+  path ***A;
+  A = new path**[r];
+  for (int i=0;i<r;++i) {
+    A[i] = new path*[c];
+  }
 
-		std::vector<std::vector<path>> A(r);
-		for(size_t i = 0; i < r; i++)
-			for(size_t j = 0; j < c; j++)
-				A[i].push_back(path(setting));
+  // Initialize A to be all NULL
+  for (int i=0;i<r;i++){
+    for (int j=0;j<c;j++) {
+      A[i][j] = NULL;
+    }
+  }
 
-		bool aijNone=true;
+  // A[0][0] = [start]
+  A[0][0] = new path(setting);
 
-		for(size_t i = 0; i < r; i++) {
-			for(size_t j = 0; j < c; j++) {
-				//base case
-				if ((i == 0) && (j == 0)){
-					A[0][0] = path(setting);
-				}
-				if (setting.get(i,j) == CELL_ROCK){
-					A[i][j] = path(setting);
-					aijNone=false;
-					continue;
-				}
+  // Best = [start]
+  path best(setting);
 
-				//general cases
-				path from_above = path(setting);
-				path from_left = path(setting);
-				bool fromleftisnotnone=false, fromaboveisnotnone=false;
+  int zero = 0;
+  path from_above(setting);
+  path from_left(setting);
 
-				//above
-				//if ((i > 0) && (A[i-1][j])){
-				if(i>0
-				  && i-1>=0 && i-1<=r
-				  && j>=0 && j<=c){
-					from_above = A[i-1][j];
-					if (from_above.is_step_valid(STEP_DIRECTION_DOWN)) {
-						from_above.add_step(STEP_DIRECTION_DOWN);
-						fromaboveisnotnone=true;
-					}
-				}
+  for (int i=0;i<r;i++){
 
-				//left
-				//if ((j > 0) && (A[i][j-1])) {
-				if(j>0
-				  && i>=0 && i<=r
-				  && j-1>=0 && j-1<=c){
-					from_left = A[i][j-1];
-					if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)) {
-						from_left.add_step(STEP_DIRECTION_RIGHT);
-						fromleftisnotnone=true;
-					}
-				}
+    for (int j=0;j<c;j++){
 
-				//assignment
-				if(fromaboveisnotnone && fromleftisnotnone) {
-					A[i][j] = from_above.total_gold() > from_left.total_gold() ? from_above : from_left;
-				} else if (fromaboveisnotnone && !fromleftisnotnone) {
-					A[i][j] = from_above;
-				} else if (fromleftisnotnone && !fromaboveisnotnone) {
-					A[i][j] = from_left;
-				} else if((!fromaboveisnotnone && !fromleftisnotnone) && i != 0) {
-					A[i][j] = path(setting);
-					aijNone=false;
-				}
-			}
-		}
+      if (setting.get(i,j)==gnomes::CELL_ROCK){
+        continue;
+      }
 
-		path best(setting);
-		for (size_t i = 0; i <= r-1; i++)
-			for (size_t j = 0; j <= c-1; j++)
-				if(A[i][j].total_gold() > best.total_gold())
-					best = A[i][j];
-		return best;
-	}
+      // from_above = from_left = None
+      int *above = NULL;
+      int *left = NULL;
+      
+      if (i>0 && A[i-1][j] != NULL){
+        from_above = *A[i-1][j];
+
+        // from_above != None anymore
+        above = &zero;
+
+        if (from_above.is_step_valid(gnomes::STEP_DIRECTION_DOWN)){
+          from_above.add_step(gnomes::STEP_DIRECTION_DOWN);
+        }
+      }
+      
+      if (j>0 && A[i][j-1] != NULL){
+        from_left = *A[i][j-1];
+
+        // from_above != None anymore
+        left = &zero;
+
+        if (from_left.is_step_valid(gnomes::STEP_DIRECTION_RIGHT)){
+          from_left.add_step(gnomes::STEP_DIRECTION_RIGHT);
+        }
+      }
+      
+      if(above != NULL && left != NULL){
+        if(from_above.total_gold() >= from_left.total_gold()){
+          A[i][j] = new path(from_above);
+        }
+        else if (from_above.total_gold() < from_left.total_gold()){
+          A[i][j] = new path(from_left);
+        }
+      }
+
+      else if(above == NULL && left!= NULL){
+        A[i][j] = new path(from_left);
+      }
+
+      else if (above != NULL && left == NULL) {
+        A[i][j] = new path(from_above);
+      }
+    }
+  }
+
+  // Post Processing to find Max. gold path
+  for (int i=0;i<r;i++){
+    for (int j=0;j<c;j++){
+      if (A[i][j] != NULL && A[i][j]->total_gold() > best.total_gold()){
+        best = *A[i][j];
+      }
+    }
+  }
+
+  return best;
+}
 }
