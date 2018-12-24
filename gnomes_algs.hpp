@@ -91,12 +91,9 @@ namespace gnomes {
     path from_left(setting);
 
     for (int i=0;i<r;i++){
-
       for (int j=0;j<c;j++){
-
-        if (setting.get(i,j)==CELL_ROCK){
+        if (setting.get(i,j)==CELL_ROCK)
           continue;
-        }
 
         //fromabover = from left = none
         int *above = NULL;
@@ -104,22 +101,16 @@ namespace gnomes {
 
         if (i>0 && A[i-1][j] != NULL){
           from_above = *A[i-1][j];
-
-        // from_above != None anymore
           above = &zero;
-          if (from_above.is_step_valid(STEP_DIRECTION_DOWN)){
+          if (from_above.is_step_valid(STEP_DIRECTION_DOWN))
             from_above.add_step(STEP_DIRECTION_DOWN);
-          }
         }
 
         if (j>0 && A[i][j-1] != NULL){
           from_left = *A[i][j-1];
-
-        // from_above != None anymore
           left = &zero;
-          if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)){
+          if (from_left.is_step_valid(STEP_DIRECTION_RIGHT))
             from_left.add_step(STEP_DIRECTION_RIGHT);
-          }
         }
 
         if(above != NULL && left != NULL){
