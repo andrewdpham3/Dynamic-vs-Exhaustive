@@ -114,12 +114,10 @@ namespace gnomes {
         }
 
         if(above != NULL && left != NULL){
-          if(from_above.total_gold() >= from_left.total_gold()){
+          if(from_above.total_gold() >= from_left.total_gold())
             A[i][j] = new path(from_above);
-          }
-          else if (from_above.total_gold() < from_left.total_gold()){
+          else if (from_above.total_gold() < from_left.total_gold())
             A[i][j] = new path(from_left);
-          }
         }
         else if(above == NULL && left!= NULL)
           A[i][j] = new path(from_left);
