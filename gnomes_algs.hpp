@@ -13,8 +13,7 @@
 #pragma once
 
 #include <cassert>
-#include <math.h>
-#include <vector>
+
 #include "gnomes_types.hpp"
 
 namespace gnomes {
@@ -27,41 +26,59 @@ namespace gnomes {
 // with an assertion.
 //
 // The grid must be non-empty.
-	path greedy_gnomes_exhaustive(const grid& setting) {
+path greedy_gnomes_exhaustive(const grid& setting) {
 
   // grid must be non-empty.
-		assert(setting.rows() > 0);
-		assert(setting.columns() > 0);
+  assert(setting.rows() > 0);
+  assert(setting.columns() > 0);
 
   // Compute maximum path length, and check that it is legal.
-		const size_t max_steps = setting.rows() + setting.columns() - 1;
-		assert(max_steps < 64);
+  const size_t max_steps = setting.rows() + setting.columns() - 2;
+  assert(max_steps < 64);
+  
+  // best = None
+  path best(setting);
 
-		path best(setting);
-		for(int len=1;len<max_steps;len++){
-			for(int bits=0;bits<pow(2,len)-1;bits++){
-				path candidate(setting);
-				for(int k=0;k<len;k++){
-					auto bit = (bits>>k)&1;
-					if(bit==1){
-						if(candidate.is_step_valid(STEP_DIRECTION_RIGHT))
-							candidate.add_step(STEP_DIRECTION_RIGHT);
-					}else
-					if(candidate.is_step_valid(STEP_DIRECTION_DOWN))
-						candidate.add_step(STEP_DIRECTION_DOWN);
-				}
-				if (candidate.total_gold()>best.total_gold())
-					best = candidate;
-			}
-		}
-		return best;
-	}
+  for (size_t len=0;len<max_steps+1;len++){
+
+    for (size_t bits=0;bits<(2<<len);bits++){
+
+      path candidate(setting);
+
+      for (size_t k=0;k<len;k++){
+
+        int bit = (bits>>k) & 1;
+
+        if (bit == 1){
+          // candidate.add(->)
+          if (candidate.is_step_valid(gnomes::STEP_DIRECTION_RIGHT)){
+            candidate.add_step(gnomes::STEP_DIRECTION_RIGHT);
+          }
+        }
+
+        else{
+          // candidate.add(V)
+          if (candidate.is_step_valid(gnomes::STEP_DIRECTION_DOWN)){
+            candidate.add_step(gnomes::STEP_DIRECTION_DOWN);
+          }
+        }
+      }
+      // best = harvests more gold
+      if (candidate.total_gold() > best.total_gold()){
+        best = candidate;
+      }
+    }
+  }
+
+  return best;
+}
 
 // Solve the greedy gnomes problem for the given grid, using a dynamic
 // programming algorithm.
 //
 // The grid must be non-empty.
-	path greedy_gnomes_dyn_prog(const grid& setting) {
+path greedy_gnomes_dyn_prog(const grid& setting) {
+
   const size_t r = setting.rows();
   const size_t c = setting.columns();
 
