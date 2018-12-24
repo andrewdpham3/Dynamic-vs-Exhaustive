@@ -106,7 +106,7 @@ namespace gnomes {
           from_above = *A[i-1][j];
 
         // from_above != None anymore
-          above = &0;
+          above = 0;
 
           if (from_above.is_step_valid(gnomes::STEP_DIRECTION_DOWN)){
             from_above.add_step(gnomes::STEP_DIRECTION_DOWN);
@@ -117,7 +117,7 @@ namespace gnomes {
           from_left = *A[i][j-1];
 
         // from_above != None anymore
-          left = &0;
+          left = 0;
 
           if (from_left.is_step_valid(gnomes::STEP_DIRECTION_RIGHT)){
             from_left.add_step(gnomes::STEP_DIRECTION_RIGHT);
