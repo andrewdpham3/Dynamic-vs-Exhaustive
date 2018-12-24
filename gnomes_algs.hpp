@@ -69,20 +69,19 @@ namespace gnomes {
     assert(r > 0);
     assert(c > 0);
 
-  // Creating a new rxc matrix
+    //create an initialize a new matrix
     path ***A;
     A = new path**[r];
     for (int i=0;i<r;++i) {
       A[i] = new path*[c];
     }
-
-  // Initialize A to be all NULL
     for (int i=0;i<r;i++){
       for (int j=0;j<c;j++) {
         A[i][j] = NULL;
       }
     }
 
+    //base case
     A[0][0] = new path(setting);
     path best(setting);
 
@@ -126,7 +125,7 @@ namespace gnomes {
       }
     }
 
-  // Post Processing to find Max. gold path
+    //post processing to find max gold path
     for (int i=0;i<r;i++)
       for (int j=0;j<c;j++)
         if (A[i][j] != NULL && A[i][j]->total_gold() > best.total_gold())
