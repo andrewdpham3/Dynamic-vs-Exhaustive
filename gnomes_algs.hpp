@@ -127,13 +127,10 @@ namespace gnomes {
     }
 
   // Post Processing to find Max. gold path
-    for (int i=0;i<r;i++){
-      for (int j=0;j<c;j++){
-        if (A[i][j] != NULL && A[i][j]->total_gold() > best.total_gold()){
+    for (int i=0;i<r;i++)
+      for (int j=0;j<c;j++)
+        if (A[i][j] != NULL && A[i][j]->total_gold() > best.total_gold())
           best = *A[i][j];
-        }
-      }
-    }
 
     return best;
   }
