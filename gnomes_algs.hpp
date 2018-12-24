@@ -83,10 +83,10 @@ namespace gnomes {
       }
     }
 
-    //a[0][0]=start
     A[0][0] = new path(setting);
     path best(setting);
 
+    int zero = 0;
     path from_above(setting);
     path from_left(setting);
 
@@ -94,7 +94,7 @@ namespace gnomes {
 
       for (int j=0;j<c;j++){
 
-        if (setting.get(i,j)==gnomes::CELL_ROCK){
+        if (setting.get(i,j)==CELL_ROCK){
           continue;
         }
 
@@ -106,7 +106,7 @@ namespace gnomes {
           from_above = *A[i-1][j];
 
         // from_above != None anymore
-          above = 0;
+          above = &zero;
 
           if (from_above.is_step_valid(gnomes::STEP_DIRECTION_DOWN)){
             from_above.add_step(gnomes::STEP_DIRECTION_DOWN);
@@ -117,7 +117,7 @@ namespace gnomes {
           from_left = *A[i][j-1];
 
         // from_above != None anymore
-          left = 0;
+          left = &zero;
 
           if (from_left.is_step_valid(gnomes::STEP_DIRECTION_RIGHT)){
             from_left.add_step(gnomes::STEP_DIRECTION_RIGHT);
