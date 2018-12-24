@@ -21,9 +21,9 @@ void print_bar() {
 
 int main() {
 
-  const size_t EXHAUSTIVE_SEARCH_MAX_N = 30;
+  const size_t EXHAUSTIVE_SEARCH_MAX_N = 20;
 
-  const size_t n = 15;
+  const size_t n = 10;
 
   assert(n > 0);
 
