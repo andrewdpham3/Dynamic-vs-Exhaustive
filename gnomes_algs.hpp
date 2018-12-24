@@ -108,8 +108,8 @@ namespace gnomes {
         // from_above != None anymore
           above = &zero;
 
-          if (from_above.is_step_valid(gnomes::STEP_DIRECTION_DOWN)){
-            from_above.add_step(gnomes::STEP_DIRECTION_DOWN);
+          if (from_above.is_step_valid(STEP_DIRECTION_DOWN)){
+            from_above.add_step(STEP_DIRECTION_DOWN);
           }
         }
 
@@ -119,8 +119,8 @@ namespace gnomes {
         // from_above != None anymore
           left = &zero;
 
-          if (from_left.is_step_valid(gnomes::STEP_DIRECTION_RIGHT)){
-            from_left.add_step(gnomes::STEP_DIRECTION_RIGHT);
+          if (from_left.is_step_valid(STEP_DIRECTION_RIGHT)){
+            from_left.add_step(STEP_DIRECTION_RIGHT);
           }
         }
 
